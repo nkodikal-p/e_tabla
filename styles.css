@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif; /* Use a modern font */
+    color: #565656; /* Dark gray text color */
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center text inside elements */
+    flex-direction: column; /* Arrange items in a column */
+}
+img {
+    max-width: 20%;
+    height: auto;
+    border-radius: 50%;
+}
+select, input {
+    font-size: inherit;
+    /* Inherit font size from body */
+    color: inherit;
+}
+
+.modern-button {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: rgb(52, 52, 52);
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin: 15px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 5px #999;
+    /* Add box shadow for 3D effect */
+    transition-duration: 0.1s;
+}
+
+.modern-button.red {
+    background-color: #fc5757;
+    /* Red */
+}
+
+.modern-button:active {
+    box-shadow: 0 5px #666;
+    /* Reduce box shadow when button is clicked */
+    transform: translateY(4px);
+    /* Move button down when clicked */
+}
+
+input[type="number"] {
+    width: 75px; /* Set width to auto */
+    padding: 5px; /* Add some padding */
+    text-align: center; /* Center the text */
+}
