@@ -9,11 +9,11 @@ for (var key in tablaSounds) {
 }
 
         // dictionary of taals
-var Taals = { 'Dadra': ['Dha', 'Dhin', 'Na', 'Dha', 'Tin', 'Na'], 
-    'Ektaal': ['Dhin', 'Dhin', 'Dha,Ge', 'Te,Re,Ke,Te', 'Tun', 'Na', 'Ke', 'Ta', 'Dha,Ge', 'Te,Re,Ke,Te', 'Dhin', 'Na'], 
-    'jhap': ['Dhin', 'Na', 'Dhin', 'Dhin', 'Na', 'Tin', 'Na', 'Dhin', 'Dhin', 'Na'], 
-    'Rupak': ['Tin', 'Tin', 'Na', 'Dhin', 'Na', 'Dhin', 'Na'], 
-    'Teentaal': ['Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Tin', 'Tin', 'Na', 'Na', 'Dhin' ,'Dhin', 'Na'] }
+var Taals = { 'Dadra (6)': ['Dha', 'Dhin', 'Na', 'Dha', 'Tin', 'Na'], 
+    'Rupak (7)': ['Tin', 'Tin', 'Na', 'Dhin', 'Na', 'Dhin', 'Na'], 
+    'Jhaptaal (10)': ['Dhin', 'Na', 'Dhin', 'Dhin', 'Na', 'Tin', 'Na', 'Dhin', 'Dhin', 'Na'], 
+    'Ektaal (12)': ['Dhin', 'Dhin', 'Dha,Ge', 'Te,Re,Ke,Te', 'Tun', 'Na', 'Ke', 'Ta', 'Dha,Ge', 'Te,Re,Ke,Te', 'Dhin', 'Na'], 
+    'Teentaal (16)': ['Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Tin', 'Tin', 'Na', 'Na', 'Dhin' ,'Dhin', 'Na'] }
 
 // Function to play a Tabla note
 function playTablaNotes(note1) {
@@ -24,17 +24,16 @@ function playTablaNotes(note1) {
 }
 
 
-// loop through the tablaSounds dictionary and create a button for each sound
-for (var key in tablaSounds) {
-    var button = document.createElement('button');
-    button.textContent = key;
-    button.addEventListener('click', function () {
-        playTablaNotes(this.textContent, 1000);
-    });
-    document.body.appendChild(button);
-}
+// // loop through the tablaSounds dictionary and create a button for each sound
+// for (var key in tablaSounds) {
+//     var button = document.createElement('button');
+//     button.textContent = key;
+//     button.addEventListener('click', function () {
+//         playTablaNotes(this.textContent, 1000);
+//     });
+//     document.body.appendChild(button);
+// }
 
-var timeoutIds = []; // Array to store timeout IDs
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', function () {
@@ -48,64 +47,78 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // create a button to play the selected taal
     var playButton = document.getElementById('playTaalButton');
-    playButton.textContent = 'Play';
-
+    
     // create a button to stop the playback
     var stopButton = document.getElementById('stopTaalButton');
-    stopButton.textContent = 'Stop';
-
+    
     var stopFlag = false;
+    var isPlaying = false; // Flag to track if playback is ongoing
+    var intervalId;
+
 
     playButton.addEventListener('click', function () {
+        if (isPlaying) return; // Do nothing if already playing
+
         stopFlag = false; // Reset stopFlag when play is clicked
+        isPlaying = true; // Set isPlaying to true when playing
+        
         var taal = Taals[select.value];
         // get bpm value
         var bpm = document.getElementById('bpm').value;
-        var duration = (60/bpm) * 1000; // Calculate duration in milliseconds
-        // Array to store timeout IDs
-  
+        var beatduration = (60 / bpm) * 1000; // Calculate duration in milliseconds
 
-        // Loop through the taal array and schedule each note to play with a delay
-        for (var i = 0; i < taal.length; i++) {
-            (function (i) {
-                var timeoutId = setTimeout(function () {
-                    if (stopFlag) return; // Check stopFlag before playing each note
-                    // split taal[i] if it has commas
-                    var notes = taal[i].split(',');
-                    if (notes.length > 1) {
-                        for (var j = 0; j < notes.length; j++) {
-                            (function (j) {
-                                var innerTimeoutId = setTimeout(function () {
-                                    if (stopFlag) return; // Check stopFlag before playing each note
-                                    playTablaNotes(notes[j]);
-                                    console.log(notes[j]);
-                                }, j * (duration / notes.length));
-                                timeoutIds.push(innerTimeoutId); // Store inner timeout ID
-                            })(j);
-                        }
-                    } else {
-                        playTablaNotes(taal[i]);
-                        console.log(taal[i]);
-                    }
-                }, i * duration);
-                timeoutIds.push(timeoutId); // Store timeout ID
-            })(i);
+        var currentBolIndex = 0;
+        var startTime = Date.now();
+
+        // Flatten the taal array to get all bols with their respective timings
+        var allBols = [];
+        taal.forEach((matra, mindex) => {
+            let bols = matra.split(',');
+            let bolduration = beatduration / bols.length;
+            bols.forEach((bol, bindex) => {
+                allBols.push({
+                    bol: bol,
+                    time: mindex * beatduration + bindex * bolduration
+                });
+            });
+        });
+
+        // Function to play bols at the correct time
+        function playBols() {
+            if (stopFlag) {
+                isPlaying = false;
+                return; // Check stopFlag before playing each note
+            }
+
+            var currentTime = Date.now() - startTime;
+            while (currentBolIndex < allBols.length && allBols[currentBolIndex].time <= currentTime) {
+                playTablaNotes(allBols[currentBolIndex].bol);
+                currentBolIndex++;
+            }
+
+            // Check if the last bol has been played and wait for its duration to complete
+            if (currentBolIndex >= allBols.length) {
+                var lastBolTime = allBols[allBols.length - 1].time;
+                var lastBolDuration = beatduration / taal[taal.length - 1].split(',').length;
+                if (currentTime >= lastBolTime + lastBolDuration) {
+                    currentBolIndex = 0; // Reset index to start from the beginning
+                    startTime = Date.now(); // Reset start time
+                }
+            }
         }
+
+        // Start the interval to check and play bols
+        intervalId = setInterval(function () {
+            if (!stopFlag) {
+                playBols();
+            }
+        }, 10); // Check every 10ms for precise timing
     });
 
-    function clearTimeouts() {
-        // Clear all stored timeouts
-        for (var i = 0; i < timeoutIds.length; i++) {
-            clearTimeout(timeoutIds[i]);
-        }
-        timeoutIds = []; // Reset the timeout IDs array
-    }
-
-
-    // Stop button event listener
+    // Add event listener for stop button
     stopButton.addEventListener('click', function () {
-        stopFlag = true; // Set stopFlag to true when stop is clicked
-        clearTimeouts(); // Clear any existing timeouts
-
+        stopFlag = true; // Set stopFlag to true to stop playing bols
+        clearInterval(intervalId); // Clear the interval
+        isPlaying = false; // Set isPlaying to false when stopped
     });
 });
