@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var currentTime = Date.now() - startTime; // Calculate current time
             while (currentBolIndex < allBols.length && allBols[currentBolIndex].time <= currentTime) {  // Check if the current time is greater than the time of the next bol
                 playTablaNotes(allBols[currentBolIndex].bol); // Play the bol
-                document.getElementById('mindexDisplay').textContent = 'Matra : ' + (allBols[currentBolIndex].mindex+1); // Update mindex display
+                document.getElementById('mindexDisplay').textContent = (allBols[currentBolIndex].mindex+1); // Update mindex display
 
                 currentBolIndex++; // Increment the index to move to the next bol
             }
