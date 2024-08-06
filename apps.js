@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var currentTime = Date.now() - startTime; // Calculate current time
             while (currentBolIndex < allBols.length && allBols[currentBolIndex].time <= currentTime) {  // Check if the current time is greater than the time of the next bol
                 playTablaNotes(allBols[currentBolIndex].bol); // Play the bol
-                document.getElementById('mindexDisplay').textContent = (allBols[currentBolIndex].mindex+1); // Update mindex display
+                document.getElementById('mindexDisplay').textContent = (allBols[currentBolIndex].mindex+1); // Update matra index display
 
                 currentBolIndex++; // Increment the index to move to the next bol
             }
@@ -124,5 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
         stopFlag = true; // Set stopFlag to true to stop playing bols
         clearInterval(intervalId); // Clear the interval
         isPlaying = false; // Set isPlaying to false when stopped
+        document.getElementById('mindexDisplay').textContent = "" // Clear matra index display
     });
 });
