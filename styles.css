@@ -11,7 +11,7 @@ body {
     flex-direction: column; /* Arrange items in a column */
 }
 img {
-    max-height: 10%;
+    max-height: 25%;
     height: auto;
     border-radius: 50%;
 }
