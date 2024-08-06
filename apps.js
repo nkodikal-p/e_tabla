@@ -12,10 +12,12 @@ for (var key in tablaSounds) {
 var Taals = { 'Dadra (6)': ['Dha', 'Dhin', 'Na', 'Dha', 'Tin', 'Na'], 
     'Rupak (7)': ['Tin', 'Tin', 'Na', 'Dhin', 'Na', 'Dhin', 'Na'], 
     'Keherwa (8)' : ['Dha','Ge','Na','Ti','Na','Ke','Dhin','Na'],
+    'Bhajani (8)': ['Dhin', 'Na,Dhin', '-,Dhin', 'Na', 'Tin', 'Na,Dhin', '-,Dhin', 'Na'],
     'Jhaptaal (10)': ['Dhin', 'Na', 'Dhin', 'Dhin', 'Na', 'Tin', 'Na', 'Dhin', 'Dhin', 'Na'], 
     'Ektaal (12)': ['Dhin', 'Dhin', 'Dha,Ge', 'Te,Re,Ke,Te', 'Tun', 'Na', 'Ke', 'Ta', 'Dha,Ge', 'Te,Re,Ke,Te', 'Dhin', 'Na'], 
     'Teentaal (16)': ['Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Dhin', 'Dhin', 'Na', 'Dha', 'Tin', 'Tin', 'Na', 'Na', 'Dhin', 'Dhin', 'Na'], 'Choutaal (12)': ['Dha', 'Dha', 'Dhin', 'Na', 'Ke,Te', 'Dha', 'Dhin', 'Na', 'Te,Te', 'Ke,Ta', 'Ge,Tin', 'Ge,Te'],
     'Dhamaar (14)' : ['Ke', 'Dhe', 'Te', 'Dhe', 'Te', 'Dha', '-', 'Ge', 'Te', 'Re', 'Te', 'Re', 'Ta', '-'],
+    'Deepchandi (14)': ['Dha', 'Dhin', '-', 'Dha', 'Dha', 'Tin', '-', 'Ta', 'Tin', '-', 'Dha', 'Dha', 'Dhin', '-'],
     'Jhoomra (14)': ['Dhin', '-,Dha', 'Te,Re,Ke,Te', 'Dhin', 'Dhin', 'Dha,Ge', 'Te,Re,Ke,Te', 'Tin', '-,Ta', 'Te,Re,Ke,Te', 'Dhin', 'Dhin', 'Dha,Ge', 'Te,Re,Ke,Te'],
     'Tilwada (16)': ['Dha', 'Te,Re,Ke,Te', 'Dhin', 'Dhin', 'Dha', 'Dha', 'Tin', 'Tin', 'Ta', 'Te,Re,Ke,Te', 'Dhin', 'Dhin', 'Dha', 'Dha', 'Dhin', 'Dhin'] }
 
@@ -77,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
             bols.forEach((bol, bindex) => { // Loop through each bol
                 allBols.push({  // Push the bol with its time to the allBols array
                     bol: bol,
-                    time: mindex * beatduration + bindex * bolduration
+                    time: mindex * beatduration + bindex * bolduration,
+                    mindex: mindex // Store the mindex with each bol
                 });
             });
         });
@@ -92,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
             var currentTime = Date.now() - startTime; // Calculate current time
             while (currentBolIndex < allBols.length && allBols[currentBolIndex].time <= currentTime) {  // Check if the current time is greater than the time of the next bol
                 playTablaNotes(allBols[currentBolIndex].bol); // Play the bol
+                document.getElementById('mindexDisplay').textContent = 'Matra : ' + (allBols[currentBolIndex].mindex+1); // Update mindex display
+
                 currentBolIndex++; // Increment the index to move to the next bol
             }
 
