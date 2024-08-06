@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!stopFlag) { // Check stopFlag before playing bols
                 playBols();
             }
-        }, 100); // Check every 100ms for precise timing
+        }, 10); // Check every 10ms for precise timing
     });
 
     // Add event listener for stop button
