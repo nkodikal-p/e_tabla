@@ -56,3 +56,11 @@ input[type="number"] {
     padding: 5px; /* Add some padding */
     text-align: center; /* Center the text */
 }
+.footer{ 
+    color: rgb(201, 201, 202);
+    font-size: 14px;
+    position: fixed;     
+    text-align: left;    
+    bottom: 0px; 
+    width: 100%;
+} 
