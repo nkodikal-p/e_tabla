@@ -4,7 +4,8 @@ Try it out at https://nkodikal-p.github.io/e_tabla/etabla.html
 <br> <br>
 Select the taal and press Play. You may set the tempo as desired. Key can be set as needed.
 
-<img width="406" height="709" alt="image" src="https://github.com/user-attachments/assets/d73a40e5-e481-4aa3-b39c-ac0a690a11cc" />
+<img width="474" height="801" alt="image" src="https://github.com/user-attachments/assets/35cedd06-e421-42eb-88a8-26d87cfe6afa" />
+
 
 
 Taals supported: <br>
