@@ -45,13 +45,13 @@
      <div id="bpmDisplay"> 
     
         <button class="bpm-button" id="decreaseBpmButton">-5</button>
-        <input type="number" id="bpm" placeholder="BPM" value="80" min="1" max="300">
+        <input type="range" id="bpm" min="50" max="300" value="80" step="5">
+        <span id="bpmValue">80</span>
         <button class="bpm-button" id="increaseBpmButton">+5</button>
     </div>
     <label for="bpm">Tempo</label>
 
     <br>
-    
     <div>
         <label for="keySelect">Key:</label>
         <select id="keySelect">
