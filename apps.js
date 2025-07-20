@@ -37,10 +37,20 @@ var Taals = {
 function playTablaNotes(note1) {
     var audio1 = preloadedSounds[note1]; // Use preloaded audio object
     audio1.currentTime = 0; // Rewind audio to the beginning
-    audio1.volume = 1.0; 
+    audio1.volume = 1.0; // Set volume to 25%
     audio1.play(); // Play first sound
 
 }
+
+
+// Function to play a Piano note
+function playPianoNotes(note1) {
+    var audio1 = preloadedPiano[note1]; // Use preloaded audio object
+    audio1.currentTime = 0; // Rewind audio to the beginning
+    audio1.volume = 1.0; // Set volume to 25%
+    audio1.play(); // Play piano sound
+}
+
 
 
 // Ensure the DOM is fully loaded before running the script
@@ -82,7 +92,7 @@ updateTablaSoundsForKey(keySelect.value);
     var decreaseBpmButton = document.getElementById('decreaseBpmButton');
     var increaseBpmButton = document.getElementById('increaseBpmButton');
     var bpmInput = document.getElementById('bpm');
-
+    var bpmValue = document.getElementById('bpmValue');
     // Add event listener for decreaseBpmButton
     decreaseBpmButton.addEventListener('click', () => {
         let currentBpm = parseInt(bpmInput.value, 10);
@@ -102,6 +112,8 @@ updateTablaSoundsForKey(keySelect.value);
     });
 
     bpmInput.addEventListener('input', function () {
+        bpmValue.textContent = bpmInput.value;
+
         if (isPlaying) {
             // Calculate elapsed time in old BPM
             let elapsed = Date.now() - startTime;
